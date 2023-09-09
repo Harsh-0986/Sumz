@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {copy, linkIcon, loader} from "../assets";
+import {copy, linkIcon, loader, tick} from "../assets";
 import {useLazyGetSummaryQuery} from "../services/article.js";
 
 const Demo = () => {
@@ -9,6 +9,7 @@ const Demo = () => {
     });
 
     const [allArticles, setAllArticles] = useState([])
+    const [copied, setCopied] = useState("");
 
     const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery()
 
@@ -37,6 +38,12 @@ const Demo = () => {
         }
     }
 
+    const handleCopy = (copyUrl) => {
+        setCopied(copyUrl)
+        navigator.clipboard.writeText(copyUrl)
+        setTimeout(() => setCopied(false), 3000)
+    }
+
     return (
         <section className="mt-16 w-full max-w-xl">
             <div className="flex flex-col w-full gap-2">
@@ -55,8 +62,8 @@ const Demo = () => {
                             onClick={() => setArticle(article)}
                             className={"link_card"}
                         >
-                            <div className="copy_btn">
-                                <img src={copy} alt={"copy_icon"}  className={"w-[40%] h-[40%] object-contain"} />
+                            <div className="copy_btn" onClick={() => handleCopy(article.url)}>
+                                <img src={copied === article.url ? tick : copy} alt={"copy_icon"}  className={"w-[40%] h-[40%] object-contain"} />
                             </div>
                             <p className={"flex-1 font-satoshi text-blue-700 font-medium text-sm truncate"}>{article.url}</p>
                         </div>

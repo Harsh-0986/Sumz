@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {linkIcon} from "../assets";
+import {copy, linkIcon} from "../assets";
 import {useLazyGetSummaryQuery} from "../services/article.js";
 
 const Demo = () => {
@@ -47,6 +47,21 @@ const Demo = () => {
                     <button className="submit_btn peer-focus:border-gray-700 peer-focus:text-gray-700" type={"submit"}>↵</button>
                 </form>
                 {/* Browse URL History */}
+
+                <div className={"flex flex-col gap-1 max-h-60 overflow-y-auto"}>
+                    {allArticles.map((article, index) => (
+                        <div
+                            key={`link-${index}`}
+                            onClick={() => setArticle(article)}
+                            className={"link_card"}
+                        >
+                            <div className="copy_btn">
+                                <img src={copy} alt={"copy_icon"}  className={"w-[40%] h-[40%] object-contain"} />
+                            </div>
+                            <p className={"flex-1 font-satoshi text-blue-700 font-medium text-sm truncate"}>{article.url}</p>
+                        </div>
+                    ))}
+                </div>
 
             </div>
 
